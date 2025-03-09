@@ -13,8 +13,11 @@
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-fs": "^2.2.0",
     "@tauri-apps/plugin-opener": "^2",
-    "gun": "^0.2020.1240",
-    "preact": "^10.25.1"
+    "@urql/preact": "^4.1.2",
+    "graphql": "^16.10.0",
+    "music-metadata": "^11.0.0",
+    "preact": "^10.25.1",
+    "preact-router": "^4.1.2"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.9.3",
