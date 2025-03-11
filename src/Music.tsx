@@ -1,6 +1,4 @@
 import { FunctionalComponent } from "preact"
-import { useContext } from "preact/hooks"
-import { GunContext } from "./context/gun";
 
 import { open, exists, BaseDirectory, readDir, DirEntry, stat } from '@tauri-apps/plugin-fs';
 import { parseBuffer, parseWebStream } from "music-metadata";
@@ -11,7 +9,6 @@ import { parseBuffer, parseWebStream } from "music-metadata";
 //await exists('avatar.png', { baseDir: BaseDirectory.AppData });
 
 export const Music: FunctionalComponent = () => {
-        const { gun } = useContext(GunContext);
 
         const addSongFromDir = async (path: string) => {
                 const fs = await open(path, { read: true, baseDir: BaseDirectory.Audio });
@@ -22,47 +19,47 @@ export const Music: FunctionalComponent = () => {
                 await fs.read(buf);
                 try {
                         const metadata = await parseBuffer(buf, { size: stat.size, path: path });
-                        let name = metadata.common.title?.replaceAll('.', '_') || path.split('.').slice(0, -1).join('_')
-                        if (metadata.common.album !== undefined) {name = metadata.common.album + "_" + name}
-                        if (metadata.common.artist !== undefined) {name = metadata.common.artist + "_" + name}
+                        let name = metadata.common.title || path.split('.').slice(0, -1).join('.')
+                        name = (metadata.common.album + '_') || '' + name;
+                        name = (metadata.common.artist + '_') || '' + name;
                         console.log(name);
-                        const song = gun.get('music').get('songs').get(name);
-                        song.put({ title: metadata.common.title || name })
-                        song.put({ path: path})
-                        //metadata.common.comment || song.put({comment: metadata.common.comment[0] || ''});
-                        if (metadata.common.lyrics !== undefined) {
-                                const lyrics = metadata.common.lyrics[0];
-                                if (lyrics.text !== undefined && lyrics != null)
-                                        song.get('lyrics').put(lyrics.text)
-                                //for (const lyrics of metadata.common.lyrics) {
-                                //}
-                        }
-                        if (metadata.common.year !== undefined) song.put({ year: metadata.common.year });
+                        //const song = gun.get('music').get('songs').get(name);
+                        //song.put({ title: metadata.common.title || name })
+                        //song.put({ path: path})
+                        ////metadata.common.comment || song.put({comment: metadata.common.comment[0] || ''});
+                        //if (metadata.common.lyrics !== undefined) {
+                        //        const lyrics = metadata.common.lyrics[0];
+                        //        if (lyrics.text !== undefined && lyrics != null)
+                        //                song.get('lyrics').put(lyrics.text)
+                        //        //for (const lyrics of metadata.common.lyrics) {
+                        //        //}
+                        //}
+                        //if (metadata.common.year !== undefined) song.put({ year: metadata.common.year });
 
 
-                        let album = null;
-                        let artist = null;
-                        if (metadata.common.album !== undefined) {
-                                const album_name = metadata.common.album.replaceAll('.', '_');
-                                album = gun.get('music').get('albums').get(album_name);
-                                song.put({ album: album });
-                                const track_no = metadata.common.track.no?.toString() || '0';
-                                album.get('songs').get(track_no).put(song);
-                                album.get('title').put(metadata.common.album);
-                        }
+                        //let album = null;
+                        //let artist = null;
+                        //if (metadata.common.album !== undefined) {
+                        //        const album_name = metadata.common.album.replaceAll('.', '_');
+                        //        album = gun.get('music').get('albums').get(album_name);
+                        //        song.put({ album: album });
+                        //        const track_no = metadata.common.track.no?.toString() || '0';
+                        //        album.get('songs').get(track_no).put(song);
+                        //        album.get('title').put(metadata.common.album);
+                        //}
 
-                        if (metadata.common.artist !== undefined) {
-                                const artist_name = metadata.common.artist.replaceAll('.', '_');
-                                artist = gun.get('music').get('artists').get(artist_name)
-                                song.get('artist').put(artist);
-                                artist.get('songs').set(song);
-                                artist.get('name').put(metadata.common.artist);
-                        }
+                        //if (metadata.common.artist !== undefined) {
+                        //        const artist_name = metadata.common.artist.replaceAll('.', '_');
+                        //        artist = gun.get('music').get('artists').get(artist_name)
+                        //        song.get('artist').put(artist);
+                        //        artist.get('songs').set(song);
+                        //        artist.get('name').put(metadata.common.artist);
+                        //}
 
-                        if (artist !== undefined && artist != null && album !== undefined && album != null) {
-                                //artist.get('albums').set(album)
-                                //album.get('artist').put(artist)
-                        }
+                        //if (artist !== undefined && artist != null && album !== undefined && album != null) {
+                        //        //artist.get('albums').set(album)
+                        //        //album.get('artist').put(artist)
+                        //}
 
                 } catch {
                 }
@@ -86,11 +83,11 @@ export const Music: FunctionalComponent = () => {
         }
 
         const list = () => {
-                gun.get('music').get('albums').once().once((value, key) => {
+                //gun.get('music').get('albums').once().once((value, key) => {
                 //gun.get('music').get('albums').once((value, key) => {
-                        console.log(key);
-                        console.log(value);
-                })
+                //        console.log(key);
+                //        console.log(value);
+                //})
                 //.map().once(function(value, key) {
                 //        console.log(key)
                 //        console.log(value)

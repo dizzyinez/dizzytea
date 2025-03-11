@@ -1,0 +1,26 @@
+type Track {
+  title: String!
+  length: Float
+  artists: [Artist]
+  lyrics: String
+}
+
+type Artist {
+  name: String!
+  releases: [Release!]!
+}
+
+type Release {
+  title: String!
+  tracks: [Track!]!
+}
+
+type Query {
+  tracks: [Track]
+  artists: [Artist]
+  releases: [Release]
+}
+
+type Mutation {
+  createArtist(artist: Artist!): Artist
+}

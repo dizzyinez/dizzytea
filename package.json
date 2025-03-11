@@ -7,21 +7,26 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "codegen": "graphql-codegen"
   },
   "dependencies": {
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-fs": "^2.2.0",
     "@tauri-apps/plugin-opener": "^2",
+    "@urql/exchange-graphcache": "^7.2.3",
     "@urql/preact": "^4.1.2",
-    "graphql": "^16.10.0",
     "music-metadata": "^11.0.0",
     "preact": "^10.25.1",
     "preact-router": "^4.1.2"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.5",
+    "@graphql-codegen/client-preset": "^4.7.0",
+    "@graphql-codegen/urql-introspection": "^3.0.0",
     "@preact/preset-vite": "^2.9.3",
     "@tauri-apps/cli": "^2",
+    "graphql": "^16.10.0",
     "typescript": "~5.6.2",
     "vite": "^6.0.3"
   }
