@@ -1,31 +1,22 @@
 import { FunctionComponent } from "preact";
 import Router from "preact-router";
-import { Client, fetchExchange, Provider } from "@urql/preact";
-import { offlineExchange } from "@urql/exchange-graphcache";
-import { makeDefaultStorage } from "@urql/exchange-graphcache/default-storage";
-import schema from '../introspection.json'
+import { SurrealProvider } from "./components/SurrealProvider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Surreal from "surrealdb";
+import { surrealdbWasmEngines } from "@surrealdb/wasm";
 
-const storage = makeDefaultStorage({
-        idbName: 'graphcache-v3',
-        maxAge: 60,
-})
 
-const cache = offlineExchange({
-        schema,
-        storage,
-})
-
-const client = new Client({
-        url: 'http://localhost:3000/graphql',
-        exchanges: [cache, fetchExchange]
+const customClient = new Surreal({
+        engines: surrealdbWasmEngines(),
 });
+await customClient.connect("indxdb://");
 
 export const AppProviders: FunctionComponent = ({ children }) => {
         return (
-                <Provider value={client}>
-                        <Router>
+                <QueryClientProvider client={new QueryClient()}>
+                        <SurrealProvider client={customClient} endpoint="indxdb://">
                                 {children}
-                        </Router>
-                </Provider>
+                        </SurrealProvider>
+                </QueryClientProvider>
         )
 }

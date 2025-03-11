@@ -1,33 +1,32 @@
 {
-  "name": "dizzytea",
-  "private": true,
-  "version": "0.1.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "tauri": "tauri",
-    "codegen": "graphql-codegen"
-  },
-  "dependencies": {
-    "@tauri-apps/api": "^2",
-    "@tauri-apps/plugin-fs": "^2.2.0",
-    "@tauri-apps/plugin-opener": "^2",
-    "@urql/exchange-graphcache": "^7.2.3",
-    "@urql/preact": "^4.1.2",
-    "music-metadata": "^11.0.0",
-    "preact": "^10.25.1",
-    "preact-router": "^4.1.2"
-  },
-  "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.5",
-    "@graphql-codegen/client-preset": "^4.7.0",
-    "@graphql-codegen/urql-introspection": "^3.0.0",
-    "@preact/preset-vite": "^2.9.3",
-    "@tauri-apps/cli": "^2",
-    "graphql": "^16.10.0",
-    "typescript": "~5.6.2",
-    "vite": "^6.0.3"
-  }
+        "name": "dizzytea",
+        "private": true,
+        "version": "0.1.0",
+        "type": "module",
+        "scripts": {
+                "dev": "vite",
+                "build": "tsc && vite build",
+                "preview": "vite preview",
+                "tauri": "tauri"
+        },
+        "dependencies": {
+                "@surrealdb/wasm": "^1.2.0",
+                "@tanstack/react-query": "^5.67.2",
+                "@tauri-apps/api": "^2",
+                "@tauri-apps/plugin-fs": "^2.2.0",
+                "@tauri-apps/plugin-opener": "^2",
+                "music-metadata": "^11.0.0",
+                "musicbrainz-api": "^0.21.0",
+                "preact": "^10.25.1",
+                "preact-router": "^4.1.2",
+                "react": "npm:@preact/compat",
+                "react-dom": "npm:@preact/compat",
+                "surrealdb": "^1.2.1"
+        },
+        "devDependencies": {
+                "@preact/preset-vite": "^2.9.3",
+                "@tauri-apps/cli": "^2",
+                "typescript": "~5.6.2",
+                "vite": "^6.0.3"
+        }
 }

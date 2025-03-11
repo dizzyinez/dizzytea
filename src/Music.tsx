@@ -2,13 +2,24 @@ import { FunctionalComponent } from "preact"
 
 import { open, exists, BaseDirectory, readDir, DirEntry, stat } from '@tauri-apps/plugin-fs';
 import { parseBuffer, parseWebStream } from "music-metadata";
+import { useSurrealClient } from "./context/components/SurrealProvider";
+//import { useSurreal } from "./context/components/SurrealProvider";
 // when using `"withGlobalTauri": true`, you may use
 // const { exists, BaseDirectory } = window.__TAURI__.fs;
 
 // Check if the `$APPDATA/avatar.png` file exists
 //await exists('avatar.png', { baseDir: BaseDirectory.AppData });
 
+type Artist = {
+        id: string;
+        name: string;
+}
+
 export const Music: FunctionalComponent = () => {
+
+        const client = useSurrealClient();
+        //const { client } = useSurreal();
+        //console.log(client)
 
         const addSongFromDir = async (path: string) => {
                 const fs = await open(path, { read: true, baseDir: BaseDirectory.Audio });
@@ -73,7 +84,7 @@ export const Music: FunctionalComponent = () => {
                         if (entry.isDirectory) {
                                 await scanDir(dir + entry.name + '/')
                         } else if (entry.isFile) {
-                                await addSongFromDir(dir + entry.name);
+                                //await addSongFromDir(dir + entry.name);
                         }
                 }
         }
