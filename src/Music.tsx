@@ -1,7 +1,7 @@
 import { FunctionalComponent } from "preact"
 
 import { open, exists, BaseDirectory, readDir, DirEntry, stat } from '@tauri-apps/plugin-fs';
-import { parseBuffer, parseWebStream } from "music-metadata";
+import { IAudioMetadata, parseBuffer, parseWebStream } from "music-metadata";
 import { useSurrealClient } from "./context/components/SurrealProvider";
 //import { useSurreal } from "./context/components/SurrealProvider";
 // when using `"withGlobalTauri": true`, you may use
@@ -21,19 +21,22 @@ export const Music: FunctionalComponent = () => {
         //const { client } = useSurreal();
         //console.log(client)
 
-        const addSongFromDir = async (path: string) => {
+        const getTrackMetadataFromPath = async (path: string) => {
                 const fs = await open(path, { read: true, baseDir: BaseDirectory.Audio });
 
                 const stat = await fs.stat();
                 //TODO: use a transform stream for this so we don't read the whole fucking file
                 let buf = new Uint8Array(stat.size);
+                let metadata: IAudioMetadata | undefined;
                 await fs.read(buf);
                 try {
-                        const metadata = await parseBuffer(buf, { size: stat.size, path: path });
+                        metadata = await parseBuffer(buf, { size: stat.size, path: path });
+
                         let name = metadata.common.title || path.split('.').slice(0, -1).join('.')
-                        name = (metadata.common.album + '_') || '' + name;
-                        name = (metadata.common.artist + '_') || '' + name;
+                        name = ((metadata.common.album + '_') || '') + name;
+                        name = ((metadata.common.artist + '_') || '') + name;
                         console.log(name);
+
                         //const song = gun.get('music').get('songs').get(name);
                         //song.put({ title: metadata.common.title || name })
                         //song.put({ path: path})
@@ -75,14 +78,16 @@ export const Music: FunctionalComponent = () => {
                 } catch {
                 }
                 await fs.close();
-
+                return metadata;
         }
 
         const scanDir = async function(dir: string) {
                 const entries = await readDir(dir, { baseDir: BaseDirectory.Audio })
                 for (const entry of entries) {
                         if (entry.isDirectory) {
-                                await scanDir(dir + entry.name + '/')
+                                //await scanDir(dir + entry.name + '/')
+                                //await addRecordFromDir(dir + entry.name + '/')
+                                return;
                         } else if (entry.isFile) {
                                 //await addSongFromDir(dir + entry.name);
                         }

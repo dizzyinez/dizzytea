@@ -16,7 +16,6 @@
                 "@tauri-apps/plugin-fs": "^2.2.0",
                 "@tauri-apps/plugin-opener": "^2",
                 "music-metadata": "^11.0.0",
-                "musicbrainz-api": "^0.21.0",
                 "preact": "^10.25.1",
                 "preact-router": "^4.1.2",
                 "react": "npm:@preact/compat",
